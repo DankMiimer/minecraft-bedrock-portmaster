@@ -1,0 +1,32 @@
+name: Controller mapping report
+description: Share a working mapping or report broken controls on a device.
+title: "[Controls]: "
+labels: ["controls"]
+body:
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: "Example: RG35XX-H"
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware / OS
+      placeholder: "Example: Knulli, ROCKNIX, muOS"
+    validations:
+      required: true
+  - type: textarea
+    id: mapping
+    attributes:
+      label: Mapping line or log excerpt
+      description: Paste the generated controller mapping line from `minecraftbedrock/log.txt`.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Mention buttons that are swapped, missing, or working correctly.

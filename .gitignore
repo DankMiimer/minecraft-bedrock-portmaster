@@ -2,6 +2,7 @@
 *.apk
 *.apks
 *.xapk
+*.zip
 **/libminecraftpe.so
 **/com.mojang/
 **/versions/

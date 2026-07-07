@@ -21,6 +21,15 @@ Minecraft Bedrock Edition APK (arm64-v8a).
 **NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH
 MOJANG OR MICROSOFT.**
 
+## Download
+
+- Latest release: [v1.3](https://github.com/DankMiimer/minecraft-bedrock-portmaster/releases/tag/v1.3)
+- Port zip: [minecraftbedrock-1.3.zip](https://github.com/DankMiimer/minecraft-bedrock-portmaster/releases/download/v1.3/minecraftbedrock-1.3.zip)
+- SHA-256: `d8662f8337864956d9c7633cbe42c7aa33a5289fb0dfeb5f9ed66e92a5dce6d2`
+
+Do not download this repository as the install package. Use the release zip
+above; GitHub's "Source code" archives are only for the repository contents.
+
 ## Requirements
 
 - aarch64 device on a Batocera-family CFW (Knulli tested)
@@ -39,13 +48,15 @@ MOJANG OR MICROSOFT.**
 
 ## Install
 
-1. Copy `Minecraft Bedrock.sh` and the `minecraftbedrock/` folder into your
-   ports directory (Knulli: `/userdata/roms/ports/`).
-2. Copy your APK into `minecraftbedrock/apk/`. A single full APK or Google
+1. Download `minecraftbedrock-1.3.zip` from the release page.
+2. Extract it into your ports directory (Knulli:
+   `/userdata/roms/ports/`), so `Minecraft Bedrock.sh` and the
+   `minecraftbedrock/` folder sit directly inside `ports/`.
+3. Copy your APK into `minecraftbedrock/apk/`. A single full APK or Google
    Play split APKs (base + arm64 + install-pack, together) both work.
-3. Update your game list and launch **Minecraft Bedrock** from Ports. The
+4. Update your game list and launch **Minecraft Bedrock** from Ports. The
    first run extracts the game — give it a few minutes.
-4. Delete the APK from the `apk/` folder afterwards.
+5. Delete the APK from the `apk/` folder afterwards.
 
 You can install several versions (drop each APK in `apk/` and launch once).
 The main **Minecraft Bedrock** entry runs the newest installed version.
@@ -112,6 +123,15 @@ for DraStic). If ES touch behaves oddly after quitting, restart ES or reboot.
   `assets/assets/` layout and something flattened it — re-run setup with the
   original APK (the bundled setup script preserves the layout).
 
+## Reporting Issues
+
+Please use the issue templates. Include your device, firmware, Minecraft APK
+version, and the relevant log text.
+
+Do **not** upload APKs, extracted `versions/`, `profiles/`, worlds, or any
+Mojang/Microsoft game files. Reports that require those files cannot be
+handled publicly.
+
 ## Source
 
 The launcher is GPL-3.0. The complete modified source is provided as patch
@@ -119,7 +139,12 @@ files in `source_release/` (see its README for base commits and build
 instructions) and as branch `rg34xxsp-port` on the forks under
 https://github.com/DankMiimer (mcpelauncher-manifest, mcpelauncher-client,
 game-window, libc-shim, linux-gamepad — recursive-clone the manifest fork to
-build). Licenses for all shipped components: `minecraftbedrock/licenses/`.
+build). Licenses for all shipped components are included inside the release
+zip under `minecraftbedrock/licenses/`; repository-level notes live in
+[`LEGAL.md`](LEGAL.md) and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+For PortMaster submission prep, see
+[`PORTMASTER_SUBMISSION.md`](PORTMASTER_SUBMISSION.md).
 
 ## Credits
 

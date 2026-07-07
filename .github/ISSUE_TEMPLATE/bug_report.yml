@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a crash, launch failure, install problem, or gameplay issue.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not attach Minecraft APKs, extracted game files, worlds, `versions/`, `profiles/`, or `libminecraftpe.so`.
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: "Example: Anbernic RG34XX-SP"
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware / OS
+      placeholder: "Example: Knulli, ROCKNIX, muOS"
+    validations:
+      required: true
+  - type: input
+    id: minecraft-version
+    attributes:
+      label: Minecraft APK version
+      placeholder: "Example: 1.20.62.02 arm64"
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What happened?
+      description: Describe the behavior and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log text
+      description: Paste relevant lines from `minecraftbedrock/log.txt` or `minecraftbedrock/weston_launch.log`. Redact private details.
+      render: text
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Public-file check
+      options:
+        - label: I did not attach APKs, extracted game files, worlds, or private profile data.
+          required: true
