@@ -3,7 +3,7 @@
 Minecraft Bedrock Edition running **natively** (no emulation, no streaming)
 on aarch64 Linux handhelds, via the
 [minecraft-linux mcpelauncher](https://github.com/minecraft-linux/mcpelauncher-manifest)
-with a custom EGLUT game-window backend on PortMaster's Weston/crusty
+with a custom EGLUT game-window backend on a Weston/crusty
 graphics stack.
 
 **Tested on:**
@@ -23,9 +23,9 @@ MOJANG OR MICROSOFT.**
 
 ## Download
 
-- Latest release: [v1.3](https://github.com/DankMiimer/minecraft-bedrock-portmaster/releases/tag/v1.3)
-- Port zip: [minecraftbedrock-1.3.zip](https://github.com/DankMiimer/minecraft-bedrock-portmaster/releases/download/v1.3/minecraftbedrock-1.3.zip)
-- SHA-256: `d8662f8337864956d9c7633cbe42c7aa33a5289fb0dfeb5f9ed66e92a5dce6d2`
+- Latest release: [v1.3](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.3)
+- Port zip: [minecraftbedrock-1.3.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.3/minecraftbedrock-1.3.zip)
+- SHA-256: `28d2a7e6cf9a436fe816df1168e7ec0133ce562698e7c225c94c9abc381ae2de`
 
 Do not download this repository as the install package. Use the release zip
 above; GitHub's "Source code" archives are only for the repository contents.
@@ -34,9 +34,8 @@ above; GitHub's "Source code" archives are only for the repository contents.
 
 - aarch64 device on a Batocera-family CFW (Knulli tested)
 - ~2 GB free space on the ports partition (game assets are large)
-- WiFi on first launch **or** PortMaster installed (the port needs
-  PortMaster's `weston_pkg_0.2` runtime and downloads it automatically if
-  missing, 53 MB)
+- WiFi on first launch so the launcher can fetch its Weston runtime if it is
+  missing (53 MB), or a preinstalled compatible `weston_pkg_0.2` runtime
 - A Minecraft Bedrock **arm64** APK. Tested: **1.16.221.01** and **1.20.x**
   (1.20.15 / 1.20.51 / 1.20.62). 1.21+ may work; 1.26+ Play builds do **not**
   (PairIP licensing). 32-bit (armeabi-v7a) APKs do not work.
@@ -143,8 +142,7 @@ build). Licenses for all shipped components are included inside the release
 zip under `minecraftbedrock/licenses/`; repository-level notes live in
 [`LEGAL.md`](LEGAL.md) and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
-For PortMaster submission prep, see
-[`PORTMASTER_SUBMISSION.md`](PORTMASTER_SUBMISSION.md).
+For device testing notes, see [`TESTING.md`](TESTING.md).
 
 ## Credits
 
@@ -154,7 +152,7 @@ For PortMaster submission prep, see
   this.
 - binarycounter — Westonpack/crusty, the graphics stack that makes libmali
   devices viable.
-- The PortMaster team — runtime distribution and the porting ecosystem.
+- The handheld Linux porting community for runtime and device-testing work.
 - Mojang Studios — Minecraft. Buy the game.
 
 Port by DankMiimer.

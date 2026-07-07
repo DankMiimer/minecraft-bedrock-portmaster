@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Download the latest release
-    url: https://github.com/DankMiimer/minecraft-bedrock-portmaster/releases/latest
+    url: https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/latest
     about: Use the release zip, not GitHub's source-code archive.

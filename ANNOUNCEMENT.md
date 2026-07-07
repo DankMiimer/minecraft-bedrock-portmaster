@@ -2,7 +2,7 @@
 
 Minecraft Bedrock running **natively** (no emulation, no streaming) on ARM
 Linux handhelds, via minecraft-linux's **mcpelauncher** with a custom EGLUT
-game-window backend on PortMaster's Weston/crusty graphics stack.
+game-window backend on a Weston/crusty graphics stack.
 
 **You bring your own legally-owned Minecraft Bedrock APK — no game files are
 included or distributed.**
@@ -48,9 +48,9 @@ so it can be added.
 4. For the big-UI version, install a 1.16.221.01 arm64 APK the same way and
    use the **Minecraft Bedrock 1.16** entry.
 
-Needs PortMaster's `weston_pkg_0.2` runtime — it downloads automatically on
-first launch if you have WiFi, or install any Weston-based PortMaster port
-first. ~2 GB free space for game assets.
+Needs the `weston_pkg_0.2` runtime — it downloads automatically on first
+launch if you have WiFi, or you can provide a compatible runtime manually.
+~2 GB free space for game assets.
 
 ## Notes
 
@@ -70,6 +70,6 @@ https://github.com/DankMiimer/mcpelauncher-manifest/tree/rg34xxsp-port
 
 The minecraft-linux project (mcpelauncher), ImpressiveStay (original
 RK3326 MCPE port this started from), binarycounter (Westonpack/crusty), and
-the PortMaster team. Minecraft © Mojang Studios — buy the game.
+the handheld Linux porting community. Minecraft © Mojang Studios — buy the game.
 
 Port by DankMiimer.
