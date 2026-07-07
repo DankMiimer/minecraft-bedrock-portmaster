@@ -2,6 +2,9 @@
 
 ## v1.3
 
+- Added muOS compatibility for H700 devices: split `/roms/Ports` + `/ports`
+  install layout, `MUOS/PortMaster` runtime lookup, muOS frontend stop/restart,
+  and Mali device-node fallback.
 - Packaged a manual-install release for aarch64 handhelds.
 - Added support for user-supplied single APKs and Google Play split APKs.
 - Added a separate 1.16.221.01 launch entry with isolated profile data.

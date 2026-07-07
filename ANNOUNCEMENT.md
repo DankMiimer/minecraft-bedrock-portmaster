@@ -17,9 +17,9 @@ MOJANG OR MICROSOFT.**
 - **LAN multiplayer works across devices** — I've had the RG34XX-SP and the
   RG DS in the same world at the same time.
 
-Should also run on other H700-family Knulli devices (RG35XX-H / Plus / SP
-2024, RG40XX, etc.) and other aarch64 ROCKNIX devices. Reports welcome — if
-your controller isn't mapped, the port auto-generates a mapping and logs it
+Should also run on other H700-family Knulli or muOS devices (RG35XX-H / Plus
+/ SP 2024, RG40XX, etc.) and other aarch64 ROCKNIX devices. Reports welcome —
+if your controller isn't mapped, the port auto-generates a mapping and logs it
 so it can be added.
 
 ## Highlights
@@ -40,8 +40,9 @@ so it can be added.
 
 ## Install
 
-1. Unzip into your ports folder (`/roms/ports/` — Knulli:
-   `/userdata/roms/ports/`).
+1. Unzip into your ports folder. Knulli uses `/userdata/roms/ports/`; on
+   muOS, put the `.sh` files in `/roms/Ports/` and `minecraftbedrock/` in
+   `/ports/`.
 2. Put your own **arm64** Bedrock APK (single APK, or Google Play splits
    together) into `minecraftbedrock/apk/`.
 3. Refresh your game list and launch **Minecraft Bedrock** from Ports. First
@@ -50,7 +51,8 @@ so it can be added.
    use the **Minecraft Bedrock 1.16** entry.
 
 Needs the `weston_pkg_0.2` runtime — it downloads automatically on first
-launch if you have WiFi, or you can provide a compatible runtime manually.
+launch if you have WiFi, or you can provide a compatible runtime manually
+(muOS users can place it under `MUOS/PortMaster/libs`).
 ~2 GB free space for game assets.
 
 ## Release hygiene
@@ -60,7 +62,7 @@ launch if you have WiFi, or you can provide a compatible runtime manually.
 - GPL source patches, license texts, credits, support instructions, trademark
   notes, and a changelog are included with the release materials.
 - SHA-256 for `minecraftbedrock-1.3.zip`:
-  `a3c221efefa52f4337c8431e5b8a685bb3af2662df810852dfd4612146481fca`
+  `fd587d09da801f8270c112342d6040328d6ebad4885eb697f301b01b09a89fe9`
 
 ## Notes
 

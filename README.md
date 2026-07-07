@@ -11,9 +11,9 @@ graphics stack.
 - Anbernic RG DS (Rockchip RK3566, dual 640x480) running ROCKNIX — the game
   runs on the primary screen; both touchscreens are mapped to it during play
 
-It should also work on other H700-family Knulli devices (RG35XX-H/Plus/SP
-2024 models) and other Mali-blob ROCKNIX devices — reports welcome. It will
-NOT work on 32-bit-only devices.
+It should also work on other H700-family devices (RG35XX-H/Plus/SP 2024,
+RG40XX, etc.) running Knulli or muOS, and other Mali-blob ROCKNIX devices —
+reports welcome. It will NOT work on 32-bit-only devices.
 
 **No game files are included.** You must provide your own legally obtained
 Minecraft Bedrock Edition APK (arm64-v8a).
@@ -25,23 +25,24 @@ MOJANG OR MICROSOFT.**
 
 - Latest release: [v1.3](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.3)
 - Port zip: [minecraftbedrock-1.3.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.3/minecraftbedrock-1.3.zip)
-- SHA-256: `a3c221efefa52f4337c8431e5b8a685bb3af2662df810852dfd4612146481fca`
+- SHA-256: compare against the checksum shown on the GitHub release page or
+  in `SHA256SUMS.txt`.
 
 Do not download this repository as the install package. Use the release zip
 above; GitHub's "Source code" archives are only for the repository contents.
 
 ## Quick Start
 
-1. Download the release zip.
-2. Extract it into your handheld's ports folder.
-3. Copy your own legally obtained Minecraft Bedrock arm64 APK file(s) into
+1. Extract this zip into your handheld's ports folder. On muOS, put the `.sh`
+   files in `/roms/Ports/` and the `minecraftbedrock/` folder in `/ports/`.
+2. Copy your own legally obtained Minecraft Bedrock arm64 APK file(s) into
    `minecraftbedrock/apk/`.
-4. Launch **Minecraft Bedrock** once to extract the game.
-5. Delete the APK file(s) from `minecraftbedrock/apk/`.
+3. Launch **Minecraft Bedrock** once to extract the game.
+4. Delete the APK file(s) from `minecraftbedrock/apk/`.
 
 ## Requirements
 
-- aarch64 device on a Batocera-family CFW (Knulli tested)
+- aarch64 device on Knulli, muOS, or ROCKNIX-style PortMaster setup
 - ~2 GB free space on the ports partition (game assets are large)
 - WiFi on first launch so the launcher can fetch its Weston runtime if it is
   missing (53 MB), or a preinstalled compatible `weston_pkg_0.2` runtime
@@ -67,15 +68,16 @@ above; GitHub's "Source code" archives are only for the repository contents.
 
 ## Install
 
-1. Download `minecraftbedrock-1.3.zip` from the release page.
-2. Extract it into your ports directory (Knulli:
-   `/userdata/roms/ports/`), so `Minecraft Bedrock.sh` and the
-   `minecraftbedrock/` folder sit directly inside `ports/`.
-3. Copy your APK into `minecraftbedrock/apk/`. A single full APK or Google
+1. Extract this zip into your ports directory.
+   - Knulli: put `Minecraft Bedrock.sh`, `Minecraft Bedrock 1.16.sh`, and the
+     `minecraftbedrock/` folder directly in `/userdata/roms/ports/`.
+   - muOS: put the `.sh` files in `/roms/Ports/` and put the
+     `minecraftbedrock/` folder in `/ports/`.
+2. Copy your APK into `minecraftbedrock/apk/`. A single full APK or Google
    Play split APKs (base + arm64 + install-pack, together) both work.
-4. Update your game list and launch **Minecraft Bedrock** from Ports. The
+3. Update your game list and launch **Minecraft Bedrock** from Ports. The
    first run extracts the game — give it a few minutes.
-5. Delete the APK from the `apk/` folder afterwards.
+4. Delete the APK from the `apk/` folder afterwards.
 
 Expected layout after extraction:
 
@@ -143,7 +145,8 @@ between an RG34XX-SP and an RG DS.
   the H700. Recommended in-game settings for H700: render distance 3-4
   chunks, 30-40 FPS cap.
 - EmulationStation is fully stopped during play and restarted afterwards
-  (required for framebuffer/controller access on Knulli).
+  on Knulli. On muOS, the frontend/mux launcher is stopped while Weston owns
+  the framebuffer and restarted on exit.
 
 ## Controls
 
@@ -170,7 +173,7 @@ Logs live at `minecraftbedrock/log.txt` and
 | No Minecraft version installed | No APK was copied, or extraction failed before creating `versions/` | Copy your legally obtained arm64 APK(s) into `minecraftbedrock/apk/` and launch again. |
 | 32-bit APK error | The APK only contains `armeabi-v7a` libraries | Use an `arm64-v8a` APK. |
 | `Unable to locate asset: bootstrap.json` | APK assets were flattened or split files are incomplete | Re-run setup with the original APK/split files together; do not rearrange `assets/assets/`. |
-| Black screen after crash | Display/session cleanup did not finish | Restart EmulationStation over SSH with `/etc/init.d/S31emulationstation start`, or reboot. |
+| Black screen after crash | Display/session cleanup did not finish | On Knulli, restart EmulationStation with `/etc/init.d/S31emulationstation start`; on muOS, relaunch the frontend or reboot. |
 | Buttons are wrong | Controller GUID is not mapped yet | Open an issue with device, firmware, and the generated mapping/log lines. |
 | Tiny UI in newer versions | 1.17+ locks GUI scale on these screens | Use 1.16.221.01 for the best UI. |
 
@@ -188,11 +191,9 @@ Linux/macOS:
 sha256sum minecraftbedrock-1.3.zip
 ```
 
-Expected:
-
-```text
-a3c221efefa52f4337c8431e5b8a685bb3af2662df810852dfd4612146481fca
-```
+Compare the result with the SHA-256 value published on the GitHub release
+page. The README inside the zip does not hardcode the final zip hash because
+that would change the archive being verified.
 
 ## Reporting Issues
 
