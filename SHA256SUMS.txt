@@ -1,1 +1,2 @@
-eea9c3c644242a0fa8729492786d98495d0ff41ab62d75a76101a8ced9b5db67  minecraftbedrock-1.3.1.zip
+8b0fb8a5d296ad0919d44b0c85c4a656cf482bf5a3d402339b53228f6ba5af03  minecraftbedrock-1.4.zip
+e0e01f4def464492fd2608fc4fc83cec361a5af427b2c9a274fdf26deece8fab  minecraftbedrock-1.4-muos-sdroot.zip
