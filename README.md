@@ -23,8 +23,8 @@ MOJANG OR MICROSOFT.**
 
 ## Download
 
-- Latest release: [v1.3.1](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.3.1)
-- Port zip: [minecraftbedrock-1.3.1.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.3.1/minecraftbedrock-1.3.1.zip)
+- Latest release: [v1.4](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.4)
+- Port zip: [minecraftbedrock-1.4.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.4/minecraftbedrock-1.4.zip)
 - SHA-256: compare against the checksum shown on the GitHub release page or
   in `SHA256SUMS.txt`.
 
@@ -212,13 +212,13 @@ Logs live at `minecraftbedrock/log.txt` and
 Windows PowerShell:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.3.1.zip
+Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.4.zip
 ```
 
 Linux/macOS:
 
 ```sh
-sha256sum minecraftbedrock-1.3.1.zip
+sha256sum minecraftbedrock-1.4.zip
 ```
 
 Compare the result with the SHA-256 value published on the GitHub release

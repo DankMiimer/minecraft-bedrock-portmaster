@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (v1.4)
+## v1.4 (2026-07-08)
 
 - Fixed silent audio on PipeWire-without-Pulse systems (muOS Jacaranda):
   raw ALSA fell back to "Device or resource busy" because PipeWire holds the
