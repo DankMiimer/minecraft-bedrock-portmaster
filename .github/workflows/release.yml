@@ -1,0 +1,55 @@
+# Builds the release zips from the staging tree and runs the content-safety
+# check on every push/PR; attaches the zips to the release when a v* tag is
+# pushed. Requires the repo to contain the staging tree at staging/ (copy of
+# dist/staging — scripts, payload, docs; never APKs/game files).
+name: build-release
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=ci-${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Shell-syntax check all scripts
+        run: |
+          shopt -s globstar nullglob
+          for f in staging/**/*.sh; do
+            bash -n "$f"
+          done
+
+      - name: Build zips + safety check
+        run: |
+          python3 scripts/build_release_zips.py \
+            --staging staging \
+            --version "${{ steps.version.outputs.version }}" \
+            --out-dir out
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: minecraftbedrock-${{ steps.version.outputs.version }}
+          path: out/
+
+      - name: Attach to GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            out/*.zip
+            out/SHA256SUMS.txt

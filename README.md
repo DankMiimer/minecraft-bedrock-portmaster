@@ -66,7 +66,34 @@ above; GitHub's "Source code" archives are only for the repository contents.
 | 1.26+ Play builds | Unsupported | Newer Android licensing/runtime dependencies are not supported by this port. |
 | 32-bit / armeabi-v7a builds | Unsupported | This port requires aarch64 and `arm64-v8a` game libraries. |
 
-## Install
+## Easy install (PC tool)
+
+`tools/prepare_sd.ps1` (Windows) / `tools/prepare_sd.sh` (Linux/macOS) do the
+layout for you: they verify the release zip, place the files correctly for
+Knulli, muOS, or ROCKNIX, and check your APK on the computer (ABI,
+split-set completeness, unsupported 1.26+ Play builds) before you ever boot
+the handheld.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\prepare_sd.ps1
+```
+
+muOS users can alternatively grab the `-muos-sdroot` zip variant and extract
+it directly at the SD card root.
+
+## Updating from a previous version
+
+Your worlds, settings, and installed game versions are never inside the
+release zip, so updating cannot touch them.
+
+- **From 1.4 or newer:** launch **Minecraft Bedrock Update** from Ports (needs
+  WiFi). It downloads the latest release and updates the port in place.
+- **From 1.3.x (or without WiFi):** extract the new release zip over your
+  existing install, overwriting when asked — same locations as a fresh
+  install. Do NOT delete the `minecraftbedrock/` folder first (it contains
+  your extracted game and worlds).
+
+## Install (manual)
 
 1. Extract this zip into your ports directory.
    - Knulli: put `Minecraft Bedrock.sh`, `Minecraft Bedrock 1.16.sh`, and the

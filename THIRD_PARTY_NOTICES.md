@@ -10,6 +10,7 @@ This repository is a distribution wrapper around several upstream projects.
 | libc-shim | https://github.com/minecraft-linux/libc-shim | part of the minecraft-linux launcher stack |
 | linux-gamepad | https://github.com/MCMrARM/linux-gamepad | MIT |
 | OpenSSL, libpng, libudev, libatomic | bundled in the release zip | license texts are included in `minecraftbedrock/licenses/` inside the release package |
+| Monocraft font (menu) | https://github.com/IdreesInc/Monocraft | SIL OFL 1.1 (`minecraftbedrock/licenses/OFL-1.1-Monocraft.txt`) |
 
 Release packages also include `source_release/`, which contains the exact patch
 set and base/result commit list used for the distributed launcher binary.
