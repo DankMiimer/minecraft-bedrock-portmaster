@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.5.1 (2026-07-09)
+
+- Fixed the port not launching on Knulli when installed in the v1.5 split
+  layout (`roms/ports/` scripts + `ports/minecraftbedrock/` payload): the
+  PortMaster control files the main entry sources can clobber `SCRIPT_DIR`,
+  making the game folder resolve to `/minecraftbedrock`. The entry now
+  restores its script directory after sourcing. Verified on an RG34XX-SP
+  running Knulli (Scarab).
+- Fixed silent audio on Pulse-served systems (Knulli and ROCKNIX,
+  pipewire-pulse): since v1.4 the launcher was started with
+  `SDL_AUDIO_DRIVER=openal` — that is SDL3's effective hint name and
+  "openal" is not an SDL3 audio driver, so SDL3's audio subsystem failed to
+  initialize and the game was mute. `SDL_AUDIO_DRIVER` is now only passed
+  when a driver is explicitly selected (the muOS PipeWire-without-Pulse
+  path, or the `MCPE_SDL_AUDIODRIVER` override); otherwise SDL3 keeps its
+  default driver order and picks PulseAudio. muOS is unaffected. Verified
+  on an RG DS running ROCKNIX and an RG34XX-SP running Knulli.
+
 ## v1.5 (2026-07-09)
 
 - **One release zip for everything.** The universal and `-muos-sdroot`

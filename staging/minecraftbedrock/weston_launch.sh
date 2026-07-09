@@ -326,6 +326,16 @@ esac
 echo "===== WESTON LAUNCH $(date) gfx=$GFX renderer=$WRENDERER sdl=$APP_SDL_DRIVER sway=$SWAY_MODE size=${DISPLAY_WIDTH}x${DISPLAY_HEIGHT} ====="
 TIMEOUT_CMD=()
 [ "$TIMEOUT" = 0 ] || TIMEOUT_CMD=(timeout --signal=TERM "$TIMEOUT")
+# SDL_AUDIO_DRIVER is SDL3's hint name; pass it only when a driver was
+# explicitly requested (run_bedrock's pipewire-without-pulse path, or the
+# MCPE_SDL_AUDIODRIVER override). Unset, SDL3 keeps its default driver order
+# and picks pulseaudio on Pulse-served systems (Knulli/ROCKNIX) — forcing
+# the legacy default "openal" here disabled SDL3 audio entirely ("openal"
+# is not an SDL3 driver). The SDL2-name line below keeps its historic
+# value; SDL3 ignores that name.
+SDL3_AUDIO_ENV=()
+[ -n "${MCPE_SDL_AUDIODRIVER:-}" ] &&
+  SDL3_AUDIO_ENV=(SDL_AUDIO_DRIVER="$MCPE_SDL_AUDIODRIVER")
 "${TIMEOUT_CMD[@]}" nice -n -10 env \
   WRAPPED_LIBRARY_PATH="$EXTRA_LIB:$GAMEDIR/versions/$MCVER/lib/arm64-v8a" \
   "$WESTON_DIR/westonwrap.sh" \
@@ -334,7 +344,7 @@ TIMEOUT_CMD=()
   SDL_VIDEODRIVER="$APP_SDL_DRIVER" \
   SDL_VIDEO_X11_FORCE_EGL="$APP_FORCE_EGL" \
   SDL_AUDIODRIVER="${MCPE_SDL_AUDIODRIVER:-openal}" \
-  SDL_AUDIO_DRIVER="${MCPE_SDL_AUDIODRIVER:-openal}" \
+  "${SDL3_AUDIO_ENV[@]}" \
   XDG_DATA_HOME="$DATA_ROOT" \
   MCPELAUNCHER_DATA_DIR="$DATA_DIR" \
   MALLOC_TRIM_THRESHOLD_=-1 MALLOC_MMAP_THRESHOLD_=268435456 \

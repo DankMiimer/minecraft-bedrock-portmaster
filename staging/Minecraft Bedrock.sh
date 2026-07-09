@@ -56,6 +56,11 @@ if type get_controls >/dev/null 2>&1; then
 fi
 export sdl_controllerconfig="${sdl_controllerconfig:-}"
 
+# The sourced PortMaster files can clobber SCRIPT_DIR (seen on Knulli:
+# pick_game_dir then resolved "/minecraftbedrock"). Restore it from the
+# copy taken before sourcing.
+SCRIPT_DIR="$PORTDIR"
+
 is_muos() {
   local cfw_lower
   cfw_lower="$(printf '%s' "${CFW_NAME:-}" | tr '[:upper:]' '[:lower:]')"

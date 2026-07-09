@@ -26,8 +26,8 @@ MOJANG OR MICROSOFT.**
 
 ## Download
 
-- Latest release: [v1.5](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.5)
-- Port zip: [minecraftbedrock-1.5.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.5/minecraftbedrock-1.5.zip)
+- Latest release: [v1.5.1](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.5.1)
+- Port zip: [minecraftbedrock-1.5.1.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.5.1/minecraftbedrock-1.5.1.zip)
   — one zip for every supported firmware
 - SHA-256: compare against the checksum shown on the GitHub release page or
   in `SHA256SUMS.txt`.
@@ -239,13 +239,13 @@ Logs live at `minecraftbedrock/log.txt` and
 Windows PowerShell:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.5.zip
+Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.5.1.zip
 ```
 
 Linux/macOS:
 
 ```sh
-sha256sum minecraftbedrock-1.5.zip
+sha256sum minecraftbedrock-1.5.1.zip
 ```
 
 Compare the result with the SHA-256 value published on the GitHub release
