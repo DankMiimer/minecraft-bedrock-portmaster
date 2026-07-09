@@ -21,6 +21,9 @@ dArkOS/DarkOS RE, Aurknix, and ArkOS-for-clone style PortMaster setups.
 Minecraft Bedrock Edition APK (`arm64-v8a` for the 64-bit path, or
 `armeabi-v7a` for the R36S/armhf path).
 
+**Recommended game version: 1.16.221.01** — the only tested version that
+does not stutter and plays perfectly on these devices (see Version Notes).
+
 **NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH
 MOJANG OR MICROSOFT.**
 
@@ -59,19 +62,19 @@ only repository contents and do not preserve the packaged layout.
   and **1.20.x** (1.20.15 / 1.20.51 / 1.20.62). The 32-bit path should accept
   the same broad version range as the working R36S port; 1.26+ Play builds do
   **not** work on the 64-bit path (PairIP licensing).
-- **Tip — UI size:** on 1.17 and newer the in-game GUI Scale is locked small
-  at these resolutions (an engine limitation, no fix launcher-side).
-  **1.16.221.01 has a working GUI Scale slider** (Settings → Video), so it
-  gives a properly sized UI at native resolution. On tested devices,
-  1.16.221.01 runs perfectly without stutters. If the small UI on modern
-  versions bothers you, 1.16 is the recommended version.
+- **Recommended version — 1.16.221.01.** It is the only tested version that
+  does not stutter and plays perfectly on these devices; the 1.20.x versions
+  run, but with occasional stutter. 1.16.221.01 also has a **working GUI
+  Scale slider** (Settings → Video), giving a properly sized UI at native
+  resolution — on 1.17 and newer the GUI Scale is locked small at these
+  resolutions (an engine limitation, no fix launcher-side).
 
 ## Version Notes
 
 | Version | Status | Notes |
 |---|---|---|
-| 1.16.221.01 arm64/arm32 | Recommended for small screens | Working GUI Scale slider; runs perfectly without stutters on tested 64-bit devices; uses its own world/profile entry. |
-| 1.20.15 / 1.20.51 / 1.20.62 arm64 | Tested | Modern gameplay; UI scale is smaller on these handheld screens. |
+| 1.16.221.01 arm64/arm32 | **Recommended** | The only tested version that does not stutter and plays perfectly (on tested 64-bit devices). Working GUI Scale slider; uses its own world/profile entry. |
+| 1.20.15 / 1.20.51 / 1.20.62 arm64 | Tested, playable | Modern gameplay, but with occasional stutter; UI scale is locked small on these handheld screens. |
 | 1.2+ armeabi-v7a | R36S path | Supported by the 32-bit launcher path inherited from the working R36S port; modern versions keep the small locked UI. |
 | 1.21+ arm64 | Untested / may work | Not a primary target yet. |
 | 1.26+ Play builds | Unsupported | Newer Android licensing/runtime dependencies are not supported by this port. |
@@ -158,11 +161,12 @@ The main **Minecraft Bedrock** entry runs the newest installed version.
 
 ### 1.16.221.01
 
-For the working GUI Scale slider, install 1.16.221.01 and use the separate
-**Minecraft Bedrock 1.16** entry — it runs 1.16 with its own isolated world
-(older clients cannot open newer worlds). On first launch, dismiss the Xbox
-sign-in prompt (press **B**) to reach the menu; sign-in is not supported.
-On tested devices, 1.16.221.01 runs perfectly without stutters.
+1.16.221.01 is the recommended version: it is the only tested version that
+does not stutter and plays perfectly, and it has the working GUI Scale
+slider. Install it and use the separate **Minecraft Bedrock 1.16** entry —
+it runs 1.16 with its own isolated world (older clients cannot open newer
+worlds). On first launch, dismiss the Xbox sign-in prompt (press **B**) to
+reach the menu; sign-in is not supported.
 
 Notes: 1.16 has no cross-version LAN with 1.20, and this port applies small
 built-in compatibility patches so 1.16.221.01 boots (Education Mode off,
@@ -232,7 +236,7 @@ Logs live at `minecraftbedrock/log.txt` and
 | `Unable to locate asset: bootstrap.json` | APK assets were flattened or split files are incomplete | Re-run setup with the original APK/split files together; do not rearrange `assets/assets/`. |
 | Black screen after crash | Display/session cleanup did not finish | On Knulli, restart EmulationStation with `/etc/init.d/S31emulationstation start`; on muOS, relaunch the frontend or reboot. |
 | Buttons are wrong | Controller GUID is not mapped yet | Open an issue with device, firmware, and the generated mapping/log lines. |
-| Tiny UI in newer versions | 1.17+ locks GUI scale on these screens | Use 1.16.221.01 for the best UI. |
+| Tiny UI in newer versions | 1.17+ locks GUI scale on these screens | Use 1.16.221.01 for the best UI and the smoothest, stutter-free gameplay. |
 
 ## Verify the Download
 
