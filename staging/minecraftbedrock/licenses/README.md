@@ -30,8 +30,7 @@ The complete corresponding source for the modified components is provided in
 | Component | Source | License |
 |---|---|---|
 | font_testo.ttf / font_titolo.ttf (Monocraft Regular / Bold) | github.com/IdreesInc/Monocraft | SIL OFL 1.1 (`OFL-1.1-Monocraft.txt`) |
-| bg.jpg | own gameplay screenshot | — |
-| main.lua / conf.lua (LÖVE menu) | this port (derived from the R36S port menu) | GPL-3.0 with the rest of the port scripts |
+| main.lua / conf.lua (LÖVE launcher menu) | this port (original; UI drawn procedurally, no image assets) | GPL-3.0 with the rest of the port scripts |
 
 ## Not included
 

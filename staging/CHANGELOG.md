@@ -1,5 +1,60 @@
 # Changelog
 
+## v1.6 (2026-07-10)
+
+- **New launcher menu.** Starting **Minecraft Bedrock** now opens a full
+  controller-driven launcher (LÖVE) instead of the bare version list, and it
+  now also runs on fbdev devices (Knulli/muOS H700) — previously it only
+  appeared on kmsdrm/ROCKNIX devices:
+  - **Versions**: switch the active version (remembered across launches) or
+    delete installed versions; worlds/profiles are never touched.
+  - **Install APK**: install new versions from APK files in `apk/` — a
+    single file or a whole Google Play split set — and delete the APK files
+    afterwards, all from the device.
+  - **Settings** (persisted in `config/settings.cfg`, applied every launch):
+    FPS cap, render distance in chunks (can go below the in-game slider's
+    minimum), 64/32-bit client override, UI scale, VSync, performance
+    governor, options auto-tune, FPS logging.
+  - **Backup**: archive worlds, game options, and launcher settings into
+    `backups/` as tar.gz, and restore or delete archives — all on-device.
+  - **Help**: short on-device troubleshooting guide.
+  - The menu stops/restores the CFW frontend itself where needed, and any
+    menu crash falls back to the old newest-version autostart.
+  - The menu UI is original to this port: procedural pixel-art chrome
+    (no image assets; the old gameplay-screenshot background is gone) with
+    the OFL-licensed Monocraft font, sized for small handheld screens.
+  - Button mapping matches the printed labels on the pad (confirm on the
+    button printed A, back on B, delete on X). Whether the CFW's SDL mapping
+    is positional (H700 family) or label-based (RG DS) is detected per pad
+    GUID; `MCPE_MENU_CONFIRM=a|b` overrides it for unlisted pads.
+  - FPS cap covers 10–120 in 5 fps steps.
+  - Pressing Play shows a **LAUNCHING pop-up** with the chosen version and a
+    progress bar; it stays on screen while the game boots, so the seconds
+    between the menu and the game no longer look like a freeze.
+  - **3D widget set**: every menu row is a chunky extruded 3D button (hard
+    outline, lit top edge, darker bottom side; the selected one lifts and
+    glows green), On/Off settings are large toggle switches with I/O marks,
+    FPS cap and render distance are thick sliders with a notched groove and
+    a two-tone striped fill, main-menu entries carry 8×8 pixel icons, footer
+    hints are 3D keycaps, and the LAUNCHING pop-up uses a sweeping
+    slider-style loading bar. Knobs are chamfered octagons with grip lines —
+    an original silhouette rather than square game-style widgets.
+- Explicit FPS-cap / render-distance / VSync choices are now written into
+  the game's `options.txt` even on a brand-new profile (previously they only
+  applied if the game had already written the key) and are applied
+  independently of the `MCPE_PERFORMANCE_OPTIONS` guardrail toggle.
+- Fixed: an APK left in `apk/` after installation no longer makes every
+  launch fail with "version already exists" — with the menu available,
+  installs are user-driven; on menu-less devices a failed re-extraction now
+  falls back to the installed versions instead of aborting.
+- The CFW's SDL controller mapping is now actually exported to the menu
+  (it was fetched but never passed on), fixing swapped/misplaced buttons in
+  the selector on some devices.
+- `setup_apk.sh` accepts explicit APK paths as arguments (used by the menu).
+- `port.json` and the release zip now ship only the main **Minecraft
+  Bedrock** entry; version selection (including 1.16) and port updates live
+  inside the launcher menu.
+
 ## v1.5.1 (2026-07-09)
 
 - Fixed the port not launching on Knulli when installed in the v1.5 split

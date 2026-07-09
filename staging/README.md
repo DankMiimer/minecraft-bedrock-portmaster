@@ -29,8 +29,8 @@ MOJANG OR MICROSOFT.**
 
 ## Download
 
-- Latest release: [v1.5.1](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.5.1)
-- Port zip: [minecraftbedrock-1.5.1.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.5.1/minecraftbedrock-1.5.1.zip)
+- Latest release: [v1.6](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.6)
+- Port zip: [minecraftbedrock-1.6.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.6/minecraftbedrock-1.6.zip)
   — one zip for every supported firmware
 - SHA-256: compare against the checksum shown on the GitHub release page or
   in `SHA256SUMS.txt`.
@@ -47,7 +47,45 @@ only repository contents and do not preserve the packaged layout.
    `ports/minecraftbedrock/apk/` for your device ABI.
 3. Refresh your game list and launch **Minecraft Bedrock** once to extract
    the game.
-4. Delete the APK file(s) from the `apk/` folder.
+4. Delete the APK file(s) from the `apk/` folder — this can also be done
+   later from the launcher menu.
+
+## Launcher menu
+
+Launching **Minecraft Bedrock** opens a controller-driven launcher menu on
+any device with PortMaster's LÖVE runtime installed (Knulli, muOS, and
+ROCKNIX alike):
+
+- **Play** — starts the selected version.
+- **Versions** — switch between installed versions (the choice is
+  remembered), or delete one with **X**. Worlds and player settings live in
+  `profiles/` and survive version deletes.
+- **Install APK** — extracts APKs found in `ports/minecraftbedrock/apk/`
+  into a new version: pick a single file, or *Install ALL files together*
+  for Google Play split sets. Installed APK files can be deleted from here
+  too (**X**).
+- **Settings** — saved to `ports/minecraftbedrock/config/settings.cfg` and
+  applied on every launch:
+  - **FPS cap** (10–120, in 5 fps steps) — writes the game's
+    `gfx_max_framerate`.
+  - **Render distance** in chunks — pinned into the game options at each
+    launch, so it can go **below the in-game slider's minimum**
+    (2 chunks = 32 blocks). 3–4 chunks is the H700 sweet spot.
+  - **Client** — force the 64-bit or 32-bit client on dual-ABI installs.
+  - **UI scale**, **VSync**, **performance governor**, **auto-tune
+    options**, and **FPS logging** toggles.
+- **Backup** — archive your worlds, game options, and launcher
+  settings into `ports/minecraftbedrock/backups/` and restore or delete
+  archives later, all from the device.
+- **Help** — short on-device troubleshooting guide.
+
+Controls: D-pad navigates, **A** selects, **B** goes back, **X** deletes,
+Left/Right changes a setting value. If the menu cannot run (no LÖVE
+runtime installed), the port behaves as before: APKs are extracted
+automatically at launch and the newest installed version starts. The menu
+can be disabled with `MCPE_MENU=0`; then the launcher starts the remembered
+version, or the newest installed version if no choice has been saved.
+Version selection and port updates live inside this main launcher menu.
 
 ## Requirements
 
@@ -73,7 +111,7 @@ only repository contents and do not preserve the packaged layout.
 
 | Version | Status | Notes |
 |---|---|---|
-| 1.16.221.01 arm64/arm32 | **Recommended** | The only tested version that does not stutter and plays perfectly (on tested 64-bit devices). Working GUI Scale slider; uses its own world/profile entry. |
+| 1.16.221.01 arm64/arm32 | **Recommended** | The only tested version that does not stutter and plays perfectly (on tested 64-bit devices). Working GUI Scale slider; uses its own isolated profile when selected from **Versions**. |
 | 1.20.15 / 1.20.51 / 1.20.62 arm64 | Tested, playable | Modern gameplay, but with occasional stutter; UI scale is locked small on these handheld screens. |
 | 1.2+ armeabi-v7a | R36S path | Supported by the 32-bit launcher path inherited from the working R36S port; modern versions keep the small locked UI. |
 | 1.21+ arm64 | Untested / may work | Not a primary target yet. |
@@ -84,8 +122,8 @@ only repository contents and do not preserve the packaged layout.
 Your worlds, settings, and installed game versions are never inside the
 release zip, so updating cannot touch them.
 
-- **From 1.4 or newer:** launch **Minecraft Bedrock Update** from Ports (needs
-  WiFi). It downloads the latest release and updates the port in place.
+- **From 1.4 or newer:** launch **Minecraft Bedrock**, choose **Update port**
+  in the launcher menu (needs WiFi), and it updates the port in place.
 - **Without WiFi:** extract the new release zip over your existing install,
   overwriting when asked. Do NOT delete the `minecraftbedrock/` folder first
   (it contains your extracted game and worlds). If your old install keeps the
@@ -127,12 +165,8 @@ Layout inside the zip:
 README.md
 roms/ports/
   Minecraft Bedrock.sh
-  Minecraft Bedrock 1.16.sh
-  Minecraft Bedrock Update.sh
 ports/
   Minecraft Bedrock.sh            (same entries, for ROCKNIX-style layouts)
-  Minecraft Bedrock 1.16.sh
-  Minecraft Bedrock Update.sh
   minecraftbedrock/
     apk/
       PUT_APK_HERE.txt
@@ -156,17 +190,18 @@ split_install_pack.apk
 
 For the R36S/armhf path, use the corresponding `armeabi-v7a` split instead.
 
-You can install several versions (drop each APK in `apk/` and launch once).
-The main **Minecraft Bedrock** entry runs the newest installed version.
+You can install several versions (drop each APK in `apk/` and install it from
+the menu). The main **Minecraft Bedrock** entry opens the launcher; **Play**
+starts the remembered version, or the newest installed version as a fallback.
 
 ### 1.16.221.01
 
 1.16.221.01 is the recommended version: it is the only tested version that
 does not stutter and plays perfectly, and it has the working GUI Scale
-slider. Install it and use the separate **Minecraft Bedrock 1.16** entry —
-it runs 1.16 with its own isolated world (older clients cannot open newer
-worlds). On first launch, dismiss the Xbox sign-in prompt (press **B**) to
-reach the menu; sign-in is not supported.
+slider. Install it, open **Minecraft Bedrock**, and choose it from
+**Versions**. The launcher gives 1.16 builds their own isolated profile
+(older clients cannot open newer worlds). On first launch, dismiss the Xbox
+sign-in prompt (press **B**) to reach the menu; sign-in is not supported.
 
 Notes: 1.16 has no cross-version LAN with 1.20, and this port applies small
 built-in compatibility patches so 1.16.221.01 boots (Education Mode off,
@@ -243,13 +278,13 @@ Logs live at `minecraftbedrock/log.txt` and
 Windows PowerShell:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.5.1.zip
+Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.6.zip
 ```
 
 Linux/macOS:
 
 ```sh
-sha256sum minecraftbedrock-1.5.1.zip
+sha256sum minecraftbedrock-1.6.zip
 ```
 
 Compare the result with the SHA-256 value published on the GitHub release

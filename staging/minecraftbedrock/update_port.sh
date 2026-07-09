@@ -1,11 +1,16 @@
 #!/bin/bash
-# Minecraft Bedrock port — self-updater.
+# Minecraft Bedrock port — self-updater (lives in the payload; run from the
+# launcher menu's "Update port" entry, which invokes a /tmp-style copy).
 # Downloads the latest release from GitHub and updates the port's scripts,
 # binaries, and menu IN PLACE. Never touches your installed game versions,
 # worlds/profiles, or APKs. Needs WiFi.
 #
 # The whole script runs from main() so that overwriting this file mid-update
 # cannot corrupt the running copy.
+#
+# Env from the caller (the main launch entry):
+#   MCPE_GAMEDIR    the payload dir (first game-dir candidate)
+#   MCPE_ENTRY_DIR  where the launch .sh entries live
 
 UPDATE_REPO="${MCPE_UPDATE_REPO:-DankMiimer/minecraft-bedrock-handheld-port}"
 
@@ -19,12 +24,15 @@ main() {
     return 1
   }
   GAMEDIR=""
-  for c in "$SCRIPT_DIR/minecraftbedrock" \
+  for c in "${MCPE_GAMEDIR:-}" \
+           "$SCRIPT_DIR/minecraftbedrock" \
            "/mnt/mmc/ports/minecraftbedrock" \
            "/mnt/sdcard/ports/minecraftbedrock" \
            "/storage/ports/minecraftbedrock" \
            "/roms/ports/minecraftbedrock" \
-           "/userdata/roms/ports/minecraftbedrock"; do
+           "/userdata/roms/ports/minecraftbedrock" \
+           "/userdata/ports/minecraftbedrock"; do
+    [ -n "$c" ] || continue
     GAMEDIR="$(try_game_dir "$c")" && break
   done
   # Same roms/ports-parent fallback as the launch entries: a script in
@@ -120,17 +128,26 @@ main() {
              "Re-extract the release zip manually."
     rm -rf "$TMPD"; exit 1
   }
-  # Launch entries: new/renamed .sh files land beside this script. This file
-  # itself is replaced LAST (script is fully parsed, so this is safe).
+  # Launch entries: new/renamed .sh files land in the entries dir (passed by
+  # the launch entry as MCPE_ENTRY_DIR; falls back to this script's dir for
+  # the legacy standalone-updater-entry flow). This script's own file is
+  # replaced LAST (fully parsed, so that is safe).
+  ENTRYDIR="${MCPE_ENTRY_DIR:-$SCRIPT_DIR}"
   for sh in "$NEW_SCRIPTS/"*.sh; do
     [ -f "$sh" ] || continue
     case "$(basename "$sh")" in "$(basename "$0")") continue ;; esac
-    cp -f "$sh" "$SCRIPT_DIR/" && chmod +x "$SCRIPT_DIR/$(basename "$sh")"
+    cp -f "$sh" "$ENTRYDIR/" && chmod +x "$ENTRYDIR/$(basename "$sh")"
   done
   [ -f "$NEW_SCRIPTS/$(basename "$0")" ] &&
     cp -f "$NEW_SCRIPTS/$(basename "$0")" "$SCRIPT_DIR/$(basename "$0")" &&
     chmod +x "$SCRIPT_DIR/$(basename "$0")"
   chmod +x "$GAMEDIR"/*.sh 2>/dev/null
+  # Since v1.6 the launcher menu covers version choice and updating, and the
+  # release ships a single "Minecraft Bedrock" entry — retire the old stock
+  # extra entries so upgraded installs match. (Deleting a fully parsed
+  # running script is safe; user-made custom entries are not touched.)
+  rm -f "$ENTRYDIR/Minecraft Bedrock 1.16.sh" \
+        "$ENTRYDIR/Minecraft Bedrock Update.sh" 2>/dev/null
 
   echo "$LATEST" > "$GAMEDIR/PORT_VERSION"
   rm -rf "$TMPD"

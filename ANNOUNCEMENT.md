@@ -1,8 +1,9 @@
-# Minecraft Bedrock Edition — native port for aarch64 handhelds
+# Minecraft Bedrock Edition — native port for ARM handhelds
 
 Minecraft Bedrock running **natively** (no emulation, no streaming) on ARM
-Linux handhelds, via minecraft-linux's **mcpelauncher** with a custom EGLUT
-game-window backend on a Weston/crusty graphics stack.
+Linux handhelds, via minecraft-linux's **mcpelauncher**. The package includes
+the aarch64 EGLUT/Weston path and the 32-bit armhf SDL path for
+RK3326/R36S-class devices.
 
 **You bring your own legally-owned Minecraft Bedrock APK — no game files are
 included or distributed.**
@@ -19,41 +20,45 @@ MOJANG OR MICROSOFT.**
   RG DS in the same world at the same time.
 
 Should also run on other H700-family muOS or Knulli devices (RG35XX-H / Plus
-/ SP 2024, RG40XX, etc.) and other aarch64 ROCKNIX devices. Reports welcome —
-if your controller isn't mapped, the port auto-generates a mapping and logs it
-so it can be added.
+/ SP 2024, RG40XX, etc.), other aarch64 ROCKNIX devices, and
+RK3326/R36S-class armhf PortMaster setups. Reports welcome — if your
+controller isn't mapped, the port auto-generates a mapping and logs it so it
+can be added.
 
 ## Highlights
 
-- **Two version tracks:**
+- **One launcher entry with two version tracks:**
   - **1.20.x** (1.20.15 / 1.20.51 / 1.20.62) — modern gameplay.
   - **1.16.221.01** — has a **working GUI Scale slider**, so you get a
     properly sized UI at native resolution (newer versions lock it small on
-    these screens). On tested devices it runs perfectly without stutters.
-    Runs from its own entry with a separate world.
+    these screens). On tested devices it runs perfectly without stutters;
+    choose it from **Versions** and it gets its own isolated profile.
+- **Update from the launcher** — the old separate Update entry is now inside
+  the main menu.
 - **Auto controller mapping** — unknown gamepads get a sensible default at
   launch, no config needed.
 - **Dual-screen aware** — on the RG DS the touchscreen is mapped to the game
   screen automatically.
 - **Performance mode** — CPU/GPU clocks are boosted while playing and
   restored on exit; on 4-core devices a measured thread layout cuts stutter.
-- Not 32-bit compatible (needs an aarch64 device + GLES 3).
+- Supports aarch64 devices and armhf RK3326/R36S-style PortMaster setups.
 
 ## Install
 
 1. Unzip **onto your SD card** — at the root of the card (or network share)
-   that holds your `roms`/`ROMS` folders. One zip, every supported firmware
-   (muOS, Knulli, ROCKNIX), no scripts, no manual file placement.
-2. Put your own **arm64** Bedrock APK (single APK, or Google Play splits
-   together) into `ports/minecraftbedrock/apk/`.
+   that holds your `roms`/`ROMS` folders. One zip covers muOS, Knulli,
+   ROCKNIX, and R36S-style PortMaster layouts.
+2. Put your own Bedrock APK (single APK, or Google Play splits together) into
+   `ports/minecraftbedrock/apk/`, matching your device ABI.
 3. Refresh your game list and launch **Minecraft Bedrock** from Ports. First
    run extracts the game (a few minutes), then delete the APK.
-4. For the big-UI version, install a 1.16.221.01 arm64 APK the same way and
-   use the **Minecraft Bedrock 1.16** entry.
+4. For the big-UI version, install a 1.16.221.01 APK the same way, open
+   **Minecraft Bedrock**, and pick it from **Versions**.
 
-Needs the `weston_pkg_0.2` runtime — it downloads automatically on first
-launch if you have WiFi, or you can provide a compatible runtime manually
-(muOS users can place it under `MUOS/PortMaster/libs`).
+The 64-bit path needs the `weston_pkg_0.2` runtime — it downloads
+automatically on first launch if you have WiFi, or you can provide a
+compatible runtime manually (muOS users can place it under
+`MUOS/PortMaster/libs`). The R36S/armhf path uses the SDL client.
 ~2 GB free space for game assets.
 
 ## Release hygiene

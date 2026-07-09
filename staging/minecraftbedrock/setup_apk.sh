@@ -5,6 +5,11 @@
 # Dual-ABI: extracts arm64-v8a (64-bit EGLUT client) and/or armeabi-v7a
 # (32-bit kmsdrm client) — whichever the APK carries. Universal APKs give a
 # version that can run on both clients.
+#
+# Usage: setup_apk.sh [apk file...]
+# With arguments (the launcher menu's Install screen passes them) only those
+# files are processed; without, every .apk in $GAMEDIR/apk/ is treated as one
+# install set.
 set -u
 GAMEDIR="${GAMEDIR:?run via 'Minecraft Bedrock.sh'}"
 APKDIR="$GAMEDIR/apk"
@@ -20,9 +25,13 @@ fail() {
 }
 rm -f "$GAMEDIR/setup_error.txt" 2>/dev/null
 
-shopt -s nullglob
-APKS=("$APKDIR"/*.apk)
-shopt -u nullglob
+if [ $# -gt 0 ]; then
+  APKS=("$@")
+else
+  shopt -s nullglob
+  APKS=("$APKDIR"/*.apk)
+  shopt -u nullglob
+fi
 [ ${#APKS[@]} -gt 0 ] || fail "no APK files found in $APKDIR"
 
 for apk in "${APKS[@]}"; do

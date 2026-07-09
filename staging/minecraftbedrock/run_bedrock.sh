@@ -327,28 +327,42 @@ set_kv() {
 set_kv enable_imgui "${IMGUI:-false}"   # imgui's GL loader crashes on this path
 set_kv scale "${MCPE_UI_DENSITY_SCALE:-2}"
 
-# --- Game options guardrails --------------------------------------------------
-# Do not fight the player's in-game settings; only guard the known-good
-# renderer flag, disable dev logging, and honour explicit env pins.
+# --- Game options ---------------------------------------------------------------
+# Two tiers: explicit pins (menu settings / env: render distance, FPS cap,
+# vsync) are always applied and added if missing — this is how the render
+# distance can go below the in-game slider's minimum. The guardrails
+# (renderer flag, dev logging) only edit keys the game already wrote and can
+# be turned off with MCPE_PERFORMANCE_OPTIONS=0 without losing the pins.
 tune_game_options() {
-  [ "${MCPE_PERFORMANCE_OPTIONS:-1}" = 1 ] || return
-  local options_file
+  local games_root="$1" options_file
+  # Seed the profile's options file so pins apply from the very first launch.
+  options_file="$games_root/com.mojang/minecraftpe/options.txt"
+  [ -f "$options_file" ] || { mkdir -p "$(dirname "$options_file")"; : > "$options_file"; }
   while IFS= read -r options_file; do
     [ -f "$options_file" ] || continue
-    set_option() {
+    set_option() { # guardrail: edit only when the key exists
       grep -q "^$1:" "$options_file" && sed -i "s#^$1:.*#$1:$2#" "$options_file"
     }
+    pin_option() { # explicit choice: add the key when missing
+      if grep -q "^$1:" "$options_file"; then
+        sed -i "s#^$1:.*#$1:$2#" "$options_file"
+      else
+        echo "$1:$2" >> "$options_file"
+      fi
+    }
+    [ -n "${MCPE_RENDER_DISTANCE:-}" ] && pin_option gfx_viewdistance "$MCPE_RENDER_DISTANCE"
+    [ -n "${MCPE_MAX_FPS:-}" ] && pin_option gfx_max_framerate "$MCPE_MAX_FPS"
+    [ -n "${MCPE_VSYNC:-}" ] && pin_option gfx_vsync "$MCPE_VSYNC"
+    [ "${MCPE_PERFORMANCE_OPTIONS:-1}" = 1 ] || continue
     # Multithreaded renderer OFF does not submit static chunk draws on this
     # EGLUT/crusty/libmali stack — keep it ON.
     set_option gfx_multithreaded_renderer "${MCPE_MULTITHREADED_RENDERER:-1}"
-    [ -n "${MCPE_RENDER_DISTANCE:-}" ] && set_option gfx_viewdistance "$MCPE_RENDER_DISTANCE"
-    [ -n "${MCPE_MAX_FPS:-}" ] && set_option gfx_max_framerate "$MCPE_MAX_FPS"
     set_option dev_file_watcher 0
     set_option content_log_file 0
     set_option content_log_gui 0
-  done < <(find "$MCPE_DATA_ROOT_OVERRIDE/mcpelauncher/games" -name options.txt 2>/dev/null)
+  done < <(find "$games_root" -name options.txt 2>/dev/null)
 }
-tune_game_options
+tune_game_options "$MCPE_DATA_ROOT_OVERRIDE/mcpelauncher/games"
 
 export APP_EXTRA_ARGS="${ARGS:-}"
 GFX="${GFX:-crusty_x11egl}"

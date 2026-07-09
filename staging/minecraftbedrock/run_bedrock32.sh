@@ -200,27 +200,47 @@ mkdir -p "$(dirname "$SETTINGS")"
 touch "$SETTINGS"
 grep -q "^audio_backend=" "$SETTINGS" 2>/dev/null ||
   echo "audio_backend=sdl3" >> "$SETTINGS"
+# Only pin the UI scale when explicitly chosen (menu/env); the armhf client's
+# own default is left alone otherwise.
+if [ -n "${MCPE_UI_DENSITY_SCALE:-}" ]; then
+  if grep -q "^scale=" "$SETTINGS" 2>/dev/null; then
+    sed -i "s#^scale=.*#scale=$MCPE_UI_DENSITY_SCALE#" "$SETTINGS"
+  else
+    echo "scale=$MCPE_UI_DENSITY_SCALE" >> "$SETTINGS"
+  fi
+fi
 
-# --- Game options guardrails --------------------------------------------------
-# Match the 64-bit launcher: only edit existing keys, so player visual choices
-# are seeded once by the entry script and then left alone.
+# --- Game options ---------------------------------------------------------------
+# Match the 64-bit launcher: explicit pins (menu settings / env) are always
+# applied and added if missing; guardrails only edit keys the game already
+# wrote and honour MCPE_PERFORMANCE_OPTIONS=0.
 tune_game_options() {
-  [ "${MCPE_PERFORMANCE_OPTIONS:-1}" = 1 ] || return
-  local options_file
+  local games_root="$1" options_file
+  options_file="$games_root/com.mojang/minecraftpe/options.txt"
+  [ -f "$options_file" ] || { mkdir -p "$(dirname "$options_file")"; : > "$options_file"; }
   while IFS= read -r options_file; do
     [ -f "$options_file" ] || continue
     set_option() {
       grep -q "^$1:" "$options_file" && sed -i "s#^$1:.*#$1:$2#" "$options_file"
     }
+    pin_option() {
+      if grep -q "^$1:" "$options_file"; then
+        sed -i "s#^$1:.*#$1:$2#" "$options_file"
+      else
+        echo "$1:$2" >> "$options_file"
+      fi
+    }
+    [ -n "${MCPE_RENDER_DISTANCE:-}" ] && pin_option gfx_viewdistance "$MCPE_RENDER_DISTANCE"
+    [ -n "${MCPE_MAX_FPS:-}" ] && pin_option gfx_max_framerate "$MCPE_MAX_FPS"
+    [ -n "${MCPE_VSYNC:-}" ] && pin_option gfx_vsync "$MCPE_VSYNC"
+    [ "${MCPE_PERFORMANCE_OPTIONS:-1}" = 1 ] || continue
     set_option gfx_multithreaded_renderer "${MCPE_MULTITHREADED_RENDERER:-1}"
-    [ -n "${MCPE_RENDER_DISTANCE:-}" ] && set_option gfx_viewdistance "$MCPE_RENDER_DISTANCE"
-    [ -n "${MCPE_MAX_FPS:-}" ] && set_option gfx_max_framerate "$MCPE_MAX_FPS"
     set_option dev_file_watcher 0
     set_option content_log_file 0
     set_option content_log_gui 0
-  done < <(find "$DATA_ROOT/mcpelauncher/games" -name options.txt 2>/dev/null)
+  done < <(find "$games_root" -name options.txt 2>/dev/null)
 }
-tune_game_options
+tune_game_options "$DATA_ROOT/mcpelauncher/games"
 
 chmod +x "$BIN" 2>/dev/null
 
