@@ -1,1 +1,1 @@
-95c6eeb8b04e1e9054cf1983279b1b6d50986379d648769bd3d67af89c68b9a9  minecraftbedrock-1.5.1.zip
+016b331e03d1d6787d207a096cd7ec43572e5dd9c5dc8daaf2697f78ae9dcddb  minecraftbedrock-1.6.zip
