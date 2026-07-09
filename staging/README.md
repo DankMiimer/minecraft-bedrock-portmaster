@@ -25,9 +25,11 @@ MOJANG OR MICROSOFT.**
 
 ## Download
 
-This is an unreleased dual-ABI R36S test build. Use the zip produced from this
-workspace (`dist/minecraftbedrock-1.4-r36s-test.zip`) for R36S testing; older
-public v1.3/v1.3.1 zips were arm64-only.
+- Latest release: [v1.4.1](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/tag/v1.4.1)
+- Port zip: [minecraftbedrock-1.4.1.zip](https://github.com/DankMiimer/minecraft-bedrock-handheld-port/releases/download/v1.4.1/minecraftbedrock-1.4.1.zip)
+  (or `minecraftbedrock-1.4.1-muos-sdroot.zip` for muOS SD-root layout)
+- SHA-256: compare against the checksum shown on the GitHub release page or
+  in `SHA256SUMS.txt`.
 
 Do not use GitHub's "Source code" archives as the install package; they are
 only repository contents and do not preserve the packaged layout.
@@ -212,18 +214,18 @@ Logs live at `minecraftbedrock/log.txt` and
 Windows PowerShell:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.4-r36s-test.zip
+Get-FileHash -Algorithm SHA256 .\minecraftbedrock-1.4.1.zip
 ```
 
 Linux/macOS:
 
 ```sh
-sha256sum minecraftbedrock-1.4-r36s-test.zip
+sha256sum minecraftbedrock-1.4.1.zip
 ```
 
-Compare the result with the SHA-256 generated alongside the test zip. The
-README inside the zip does not hardcode the final zip hash because that would
-change the archive being verified.
+Compare the result with the SHA-256 value published on the GitHub release
+page (`SHA256SUMS.txt`). The README inside the zip does not hardcode the
+final zip hash because that would change the archive being verified.
 
 ## Reporting Issues
 

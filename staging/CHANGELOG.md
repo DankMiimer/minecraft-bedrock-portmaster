@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.4.1 (2026-07-09)
+
+- Actually fixed silent audio on muOS (PipeWire without a Pulse socket).
+  v1.4's approach could not work: the shipped client's static SDL3 has no
+  PipeWire driver compiled in, so `SDL_AUDIODRIVER=pipewire,alsa` silently
+  degraded to raw ALSA — and PipeWire holds the sound card exclusively
+  ("Device or resource busy"). On top of that, muOS's minimal ALSA config
+  does not advertise a `default` device in the namehint list, which SDL3
+  requires before it will open `default`, so SDL3 opened the raw card
+  directly. The port now ships `alsa/pipewire-overlay.conf` and, when it
+  detects PipeWire with no Pulse socket, generates a private ALSA config
+  (`ALSA_CONFIG_PATH`) routing `default`/`sysdefault` through the system's
+  ALSA→PipeWire plugin. Verified on an RG34XX-SP running muOS 2601
+  Jacaranda: active in-game PipeWire stream, audible sound. Knulli and
+  ROCKNIX are unaffected (they take the Pulse path); disable with
+  `MCPE_ALSA_PIPEWIRE=0`.
+- The port README shipped inside v1.4 zips still described an internal R36S
+  test build in its Download section; it now matches the public release.
+
 ## v1.4 (2026-07-08)
 
 - Fixed silent audio on PipeWire-without-Pulse systems (muOS Jacaranda):

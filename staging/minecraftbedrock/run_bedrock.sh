@@ -262,6 +262,27 @@ elif [ -z "${ALSOFT_DRIVERS:-}" ]; then
       export MCPE_SDL_AUDIODRIVER="${MCPE_SDL_AUDIODRIVER:-pipewire,alsa}"
       export ALSOFT_DRIVERS="pipewire,pulse,alsa"
       echo "audio: PipeWire server (no pulse socket) at $pw_sock -> SDL pipewire driver"
+      # The shipped SDL3 has no pipewire driver compiled in, so audio really
+      # goes SDL3 -> ALSA. Raw/sysdefault ALSA devices are EBUSY while
+      # PipeWire runs; give the game an ALSA config whose default AND
+      # sysdefault route through the pipewire ALSA plugin (verified on muOS
+      # 2601 Jacaranda / RG34XX-SP). Disable with MCPE_ALSA_PIPEWIRE=0.
+      pw_alsa_plugin=0
+      for p in /usr/lib*/alsa-lib/libasound_module_pcm_pipewire.so \
+               /usr/lib/*/alsa-lib/libasound_module_pcm_pipewire.so; do
+        [ -f "$p" ] && { pw_alsa_plugin=1; break; }
+      done
+      if [ "${MCPE_ALSA_PIPEWIRE:-1}" != 0 ] &&
+         [ "$pw_alsa_plugin" = 1 ] &&
+         [ -z "${ALSA_CONFIG_PATH:-}" ] &&
+         [ -f /usr/share/alsa/alsa.conf ] &&
+         [ -f "$GAMEDIR/alsa/pipewire-overlay.conf" ]; then
+        if cat /usr/share/alsa/alsa.conf "$GAMEDIR/alsa/pipewire-overlay.conf" \
+             > /tmp/mcpe_alsa_pipewire.conf 2>/dev/null; then
+          export ALSA_CONFIG_PATH=/tmp/mcpe_alsa_pipewire.conf
+          echo "audio: ALSA default/sysdefault routed via pipewire plugin (ALSA_CONFIG_PATH)"
+        fi
+      fi
     else
       export ALSOFT_DRIVERS=alsa
       echo "audio: no PulseAudio/PipeWire server found -> routing OpenAL to ALSA"

@@ -7,10 +7,11 @@ Use GitHub issues for public bug reports and controller mapping reports.
 - **No audio on muOS (game runs fine otherwise).** muOS Jacaranda runs
   PipeWire, which holds the ALSA device exclusively; older builds of this
   port fell back to raw ALSA and got "Device or resource busy". Fixed in
-  1.4: the launcher now detects the PipeWire socket and routes audio through
-  it. If audio is still silent, launch once with `MCPE_SDL_AUDIODRIVER=alsa`
-  or `MCPE_ALSOFT_DRIVERS=pipewire,pulse,alsa` and attach `log.txt` to an
-  issue.
+  1.4.1 (v1.4's fix was not effective): the launcher now routes the game's
+  ALSA output through the system's ALSA→PipeWire plugin with a generated
+  config (`ALSA_CONFIG_PATH`), verified on an RG34XX-SP running muOS 2601.
+  If audio is still silent, launch once with `MCPE_ALSA_PIPEWIRE=0` (or
+  `MCPE_SDL_AUDIODRIVER=alsa`) and attach `log.txt` to an issue.
 - **UI looks slightly stretched or cut off on non-720x480 screens.** Fixed in
   1.4: the game window is now requested at the real panel size. Override with
   `MCPE_DISPLAY_WIDTH` / `MCPE_DISPLAY_HEIGHT` if your panel is detected
